@@ -17,37 +17,41 @@
     -webkit-tap-highlight-color: transparent;
 }
 
+/* Poori display screen ko cover karne ke liye setup */
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: var(--bg-main);
+}
+
 body {
-    background-color: #cbd5e1;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    overflow: hidden; /* Desktop body scroll disabled */
 }
 
-/* Zoom Lock Mobile Frame Simulator */
+/* Ab container full screen occupy karega */
 .app-container {
-    width: 390px;
-    height: 844px;
+    width: 100%;
+    height: 100%;
+    max-width: 500px; /* Agar bade tab ya desktop par kholein toh zyada na faile */
     background-color: var(--bg-main);
-    border-radius: 32px;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
     display: flex;
     flex-direction: column;
-    overflow: hidden;
     position: relative;
+    box-shadow: 0 0 20px rgba(0,0,0,0.05);
 }
 
-/* Header */
+/* Top Header Fixed Layout */
 .app-header {
-    height: 64px;
+    height: 60px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0 20px;
     background-color: var(--bg-main);
-    z-index: 10;
+    flex-shrink: 0;
 }
 
 .menu-btn {
@@ -71,22 +75,22 @@ body {
     cursor: pointer;
 }
 
-/* Scrollable Main Area */
+/* Scrollable Main Elements Area */
 .scrollable-content {
     flex: 1;
     overflow-y: auto;
-    padding: 0 20px 20px 20px;
+    padding: 10px 20px 30px 20px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 18px;
 }
 
-/* Hide scrollbar for clean app look */
+/* Smooth Scrolling & Hidden Native Scrollbars */
 .scrollable-content::-webkit-scrollbar {
     display: none;
 }
 
-/* Note Section */
+/* Note UI Card Block */
 .note-card {
     background: var(--card-bg);
     border-radius: 20px;
@@ -131,24 +135,24 @@ body {
     margin-top: 2px;
 }
 
-/* Grid Buttons Layout */
+/* 2x2 Grid Layout Area */
 .grid-buttons {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 14px;
+    gap: 12px;
 }
 
 .grid-btn {
     cursor: pointer;
 }
 
-/* Dynamic Magic Rainbow Border Glow */
+/* Rainbow Neon Gradient Glow Borders Effect */
 .rainbow-border {
     position: relative;
     background: linear-gradient(135deg, #00f2fe, #4facfe, #b156fc, #ff007f);
     padding: 2px;
     border-radius: 16px;
-    box-shadow: 0 4px 12px rgba(79, 172, 254, 0.15);
+    box-shadow: 0 4px 12px rgba(79, 172, 254, 0.1);
 }
 
 .btn-content {
@@ -168,9 +172,10 @@ body {
     letter-spacing: 0.3px;
 }
 
-/* Upgrade Card Box */
+/* Upgrade Pro Premium Box Layout */
 .upgrade-card {
     cursor: pointer;
+    margin-bottom: 10px;
 }
 
 .card-inner {
@@ -202,7 +207,7 @@ body {
     margin-top: 2px;
 }
 
-/* Features inside Upgrade Card */
+/* Grid Inside Premium Upgrade Section */
 .features-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -226,16 +231,16 @@ body {
     color: var(--text-muted);
 }
 
-/* System In-App Navigation Footer */
+/* Fixed Bottom Navigation Soft-Tab Bar */
 .bottom-nav {
-    height: 68px;
+    height: 64px;
     background-color: var(--card-bg);
     border-top: 1px solid var(--border-light);
     display: flex;
     justify-content: space-around;
     align-items: center;
-    padding-bottom: 10px; /* Safe area space */
-    z-index: 10;
+    padding-bottom: env(safe-area-inset-bottom); /* iOS device padding safety */
+    flex-shrink: 0;
 }
 
 .nav-item {
@@ -244,22 +249,22 @@ body {
     font-size: 22px;
     color: #a0aec0;
     cursor: pointer;
-    width: 50px;
+    width: 55px;
     height: 100%;
-    transition: color 0.2s ease;
+    transition: color 0.15s ease;
 }
 
 .nav-item.active {
     color: #4a5568;
 }
 
-/* Tap Interaction Animation Effect */
+/* Buttons Press Interaction State */
 .page-trigger:active {
-    transform: scale(0.98);
-    transition: transform 0.1s ease;
+    transform: scale(0.97);
+    transition: transform 0.08s ease;
 }
 
-/* Colors & Icons Vectors style */
+/* Color & Vector Utility Classes */
 .icon-box { font-size: 20px; }
 .cyan-text { color: #00bcd4; }
 .purple-text { color: #673ab7; }
