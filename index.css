@@ -17,33 +17,28 @@
     -webkit-tap-highlight-color: transparent;
 }
 
-/* Poori display screen ko cover karne ke liye setup */
+/* Kisi bhi tarah ka out-border, gray body frame ya alignment margin poora khatam */
 html, body {
     width: 100%;
     height: 100%;
-    overflow: hidden;
+    overflow: hidden; 
     background-color: var(--bg-main);
 }
 
-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-/* Ab container full screen occupy karega */
+/* Container ab poori screen ko 100% horizontally aur vertically lock karega */
 .app-container {
     width: 100%;
     height: 100%;
-    max-width: 500px; /* Agar bade tab ya desktop par kholein toh zyada na faile */
     background-color: var(--bg-main);
     display: flex;
     flex-direction: column;
     position: relative;
-    box-shadow: 0 0 20px rgba(0,0,0,0.05);
+    box-shadow: none; /* Saare outer shadows and desktop designs hataye */
+    border: none;
+    border-radius: 0; /* Corner radius zero taaki mobile corners par screen leak na ho */
 }
 
-/* Top Header Fixed Layout */
+/* Top Header Area */
 .app-header {
     height: 60px;
     display: flex;
@@ -75,7 +70,7 @@ body {
     cursor: pointer;
 }
 
-/* Scrollable Main Elements Area */
+/* Content Area jo scroll hoga aur full grid space legal */
 .scrollable-content {
     flex: 1;
     overflow-y: auto;
@@ -85,12 +80,12 @@ body {
     gap: 18px;
 }
 
-/* Smooth Scrolling & Hidden Native Scrollbars */
+/* Android Browser Custom Scrollbars standard hidden view */
 .scrollable-content::-webkit-scrollbar {
     display: none;
 }
 
-/* Note UI Card Block */
+/* Note Section Block */
 .note-card {
     background: var(--card-bg);
     border-radius: 20px;
@@ -135,7 +130,7 @@ body {
     margin-top: 2px;
 }
 
-/* 2x2 Grid Layout Area */
+/* 2x2 Grid Buttons System */
 .grid-buttons {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -146,7 +141,7 @@ body {
     cursor: pointer;
 }
 
-/* Rainbow Neon Gradient Glow Borders Effect */
+/* Neon Glow Gradient Outer Border Effect */
 .rainbow-border {
     position: relative;
     background: linear-gradient(135deg, #00f2fe, #4facfe, #b156fc, #ff007f);
@@ -172,7 +167,7 @@ body {
     letter-spacing: 0.3px;
 }
 
-/* Upgrade Pro Premium Box Layout */
+/* Upgrade Pro Area Setup */
 .upgrade-card {
     cursor: pointer;
     margin-bottom: 10px;
@@ -207,7 +202,7 @@ body {
     margin-top: 2px;
 }
 
-/* Grid Inside Premium Upgrade Section */
+/* Features Internal Sub-Grid */
 .features-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -231,15 +226,15 @@ body {
     color: var(--text-muted);
 }
 
-/* Fixed Bottom Navigation Soft-Tab Bar */
+/* Fixed Bottom Navigation Soft-keys Footer */
 .bottom-nav {
-    height: 64px;
+    height: 60px;
     background-color: var(--card-bg);
     border-top: 1px solid var(--border-light);
     display: flex;
     justify-content: space-around;
     align-items: center;
-    padding-bottom: env(safe-area-inset-bottom); /* iOS device padding safety */
+    padding-bottom: env(safe-area-inset-bottom);
     flex-shrink: 0;
 }
 
@@ -258,13 +253,13 @@ body {
     color: #4a5568;
 }
 
-/* Buttons Press Interaction State */
+/* Touch Active Feedback State */
 .page-trigger:active {
     transform: scale(0.97);
     transition: transform 0.08s ease;
 }
 
-/* Color & Vector Utility Classes */
+/* Vectors & Accent UI Utilities */
 .icon-box { font-size: 20px; }
 .cyan-text { color: #00bcd4; }
 .purple-text { color: #673ab7; }
