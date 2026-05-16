@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>EdiOne | AI Editor</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="editor-style.css">
+</head>
+<body>
+
+    <div class="ambient-glow"></div>
+
+    <header>
+        <div class="logo-container">
+            <i class="fa-solid fa-wand-magic-sparkles logo-sparkle"></i>
+            <span class="logo-text">EdiOne</span>
+        </div>
+        <a href="index.html" class="back-btn">
+            <i class="fa-solid fa-xmark"></i>
+        </a>
+    </header>
+
+    <main>
+        <div class="tool-badges">
+            <div class="badge"><i class="fa-solid fa-wand-magic-sparkles"></i> Magic Edit</div>
+            <div class="badge"><i class="fa-solid fa-image"></i> AI Upscale</div>
+            <div class="badge"><i class="fa-solid fa-scissors"></i> BG Remover</div>
+            <div class="badge"><i class="fa-solid fa-palette"></i> Re-color</div>
+        </div>
+
+        <div class="editor-canvas">
+            <div class="canvas-placeholder">
+                <i class="fa-solid fa-clapperboard"></i>
+                <p>Upload media or type an AI prompt below to start editing with EdiOne Intelligence.</p>
+            </div>
+            <div class="canvas-blur-effect"></div>
+        </div>
+    </main>
+
+    <section class="prompt-area">
+        <div class="prompt-container">
+            <input type="text" class="prompt-input" placeholder="Ask EdiOne to edit or create anything...">
+            <button class="send-btn">
+                <i class="fa-solid fa-arrow-up"></i>
+            </button>
+        </div>
+    </section>
+
+    <script src="editor.js"></script>
+</body>
+</html>
+
