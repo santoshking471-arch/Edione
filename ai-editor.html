@@ -2,52 +2,57 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>EdiOne | AI Editor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>EdiOne | Gemini Chat AI</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="editor-style.css">
 </head>
-<body>
+<body class="dark-theme"> <div class="ambient-glow"></div>
 
-    <div class="ambient-glow"></div>
-
-    <header>
-        <div class="logo-container">
-            <i class="fa-solid fa-wand-magic-sparkles logo-sparkle"></i>
-            <span class="logo-text">EdiOne</span>
-        </div>
-        <a href="index.html" class="back-btn">
-            <i class="fa-solid fa-xmark"></i>
-        </a>
-    </header>
-
-    <main>
-        <div class="tool-badges">
-            <div class="badge"><i class="fa-solid fa-wand-magic-sparkles"></i> Magic Edit</div>
-            <div class="badge"><i class="fa-solid fa-image"></i> AI Upscale</div>
-            <div class="badge"><i class="fa-solid fa-scissors"></i> BG Remover</div>
-            <div class="badge"><i class="fa-solid fa-palette"></i> Re-color</div>
-        </div>
-
-        <div class="editor-canvas">
-            <div class="canvas-placeholder">
-                <i class="fa-solid fa-clapperboard"></i>
-                <p>Upload media or type an AI prompt below to start editing with EdiOne Intelligence.</p>
+    <div class="app-container">
+        <header class="app-header">
+            <div class="left-nav">
+                <a href="index.html" class="icon-btn"><i class="fa-solid fa-chevron-left"></i></a>
+                <span class="logo-text">EdiOne</span>
             </div>
-            <div class="canvas-blur-effect"></div>
-        </div>
-    </main>
+            <div class="right-nav">
+                <button class="icon-btn" id="theme-toggle"><i class="fa-solid fa-sun"></i></button>
+                <div class="profile-circle">S</div>
+            </div>
+        </header>
 
-    <section class="prompt-area">
-        <div class="prompt-container">
-            <input type="text" class="prompt-input" placeholder="Ask EdiOne to edit or create anything...">
-            <button class="send-btn">
-                <i class="fa-solid fa-arrow-up"></i>
-            </button>
-        </div>
-    </section>
+        <main class="chat-container" id="chat-scroller">
+            <div class="welcome-screen" id="welcome-area">
+                <h1 class="greeting-text">नमस्ते, Santosh!</h1>
+                <h2 class="sub-greeting">EdiOne AI se kahan shuruat karein?</h2>
+                
+                <div class="suggestion-grid">
+                    <button class="suggest-card" data-prompt="Mujhe ek trending tech reels ka script likh kar do.">
+                        <i class="fa-solid fa-wand-magic-sparkles cyan-text"></i> Script banayein
+                    </button>
+                    <button class="suggest-card" data-prompt="Ek high-engaging motivational video concept batao.">
+                        <i class="fa-solid fa-lightbulb orange-text"></i> Idea taiyar karein
+                    </button>
+                    <button class="suggest-card" data-prompt="YouTube video ke liye high CTR description generator optimization.">
+                        <i class="fa-solid fa-code purple-text"></i> Optimization logic
+                    </button>
+                </div>
+            </div>
+            
+            <div class="chat-logs" id="chat-output-space"></div>
+        </main>
+
+        <footer class="input-console">
+            <div class="console-wrapper">
+                <button class="action-trigger-btn"><i class="fa-solid fa-plus"></i></button>
+                <input type="text" class="chat-input" id="user-query" placeholder="EdiOne se poochein...">
+                <button class="send-action-btn" id="submit-prompt">
+                    <i class="fa-solid fa-arrow-up"></i>
+                </button>
+            </div>
+        </footer>
+    </div>
 
     <script src="editor.js"></script>
 </body>
 </html>
-
