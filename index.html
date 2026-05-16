@@ -2,123 +2,127 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Content Creator UI</title>
-    <link rel="stylesheet" href="index.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AI Content Creator</title>
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-    <div class="phone-container">
+    <div class="app-container">
         
         <header class="app-header">
-            <button class="menu-btn"><i class="fa-solid fa-bars"></i></button>
-            <div class="profile-avatar"><i class="fa-solid fa-user"></i></div>
+            <button class="menu-btn" id="top-menu"><i class="fa-solid fa-bars"></i></button>
+            <div class="profile-avatar" id="top-profile"><i class="fa-solid fa-user"></i></div>
         </header>
 
-        <section class="note-section">
-            <h2 class="note-title">Note*</h2>
-            <div class="note-list">
-                
-                <div class="note-item">
-                    <div class="icon-box cyan-text"><i class="fa-regular fa-pen-to-square"></i></div>
-                    <div class="note-text">
-                        <h3>Generate Scripts</h3>
-                        <p>Generate scripts and automations</p>
-                    </div>
-                </div>
-                
-                <div class="note-item">
-                    <div class="icon-box purple-text"><i class="fa-solid fa-chart-line"></i></div>
-                    <div class="note-text">
-                        <h3>Find Trending Topics</h3>
-                        <p>Find how to understand trending topics</p>
-                    </div>
-                </div>
-                
-                <div class="note-item">
-                    <div class="icon-box violet-text"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
-                    <div class="note-text">
-                        <h3>Edit with AI</h3>
-                        <p>Generate ninety covers with AI</p>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-        <section class="grid-buttons">
+        <main class="scrollable-content">
             
-            <div class="grid-btn rainbow-border">
-                <div class="btn-content">
-                    <i class="fa-solid fa-wand-magic-sparkles cyan-text"></i>
-                    <span>EDIT</span>
-                </div>
-            </div>
-            
-            <div class="grid-btn rainbow-border">
-                <div class="btn-content">
-                    <span class="gradient-text-icon">A</span>
-                    <span>AI EDITOR</span>
-                </div>
-            </div>
-            
-            <div class="grid-btn rainbow-border">
-                <div class="btn-content">
-                    <i class="fa-solid fa-waveform-lines magenta-text"></i>
-                    <span>AI VOICE</span>
-                </div>
-            </div>
-            
-            <div class="grid-btn rainbow-border">
-                <div class="btn-content">
-                    <i class="fa-solid fa-clapperboard-play orange-text"></i>
-                    <span>AI CLIPS</span>
-                </div>
-            </div>
-
-        </section>
-
-        <section class="upgrade-section rainbow-border large-card">
-            <div class="card-inner">
-                <h2 class="upgrade-title">UPGRADE PRO</h2>
-                <h3 class="upgrade-subtitle">Features</h3>
-                
-                <div class="feature-item">
-                    <div class="feature-icon hd-icon">HD</div>
-                    <div class="feature-text">
-                        <h4>HD Renders</h4>
-                        <p>Rapidly rotating HD card Renders</p>
+            <section class="note-card page-trigger" data-target="notes.html">
+                <h2 class="note-title">Note*</h2>
+                <div class="note-list">
+                    <div class="note-item">
+                        <div class="icon-box cyan-text"><i class="fa-regular fa-pen-to-square"></i></div>
+                        <div class="note-text">
+                            <h3>Generate Scripts</h3>
+                            <p>Generate scripts and automations.</p>
+                        </div>
+                    </div>
+                    <div class="note-item">
+                        <div class="icon-box purple-text"><i class="fa-solid fa-chart-line"></i></div>
+                        <div class="note-text">
+                            <h3>Find Trending Topics</h3>
+                            <p>Find relevant trending topics.</p>
+                        </div>
+                    </div>
+                    <div class="note-item">
+                        <div class="icon-box violet-text"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                        <div class="note-text">
+                            <h3>Edit with AI</h3>
+                            <p>Create new content with AI.</p>
+                        </div>
                     </div>
                 </div>
+            </section>
 
-                <div class="feature-item">
-                    <div class="feature-icon gold-text"><i class="fa-solid fa-microphone-lines"></i></div>
-                    <div class="feature-text">
-                        <h4>Custom Voices</h4>
-                        <p>Comis voice from Custom Voices</p>
+            <section class="grid-buttons">
+                <div class="grid-btn rainbow-border page-trigger" data-target="edit.html">
+                    <div class="btn-content">
+                        <i class="fa-solid fa-wand-magic-sparkles cyan-text"></i>
+                        <span>EDIT</span>
                     </div>
                 </div>
-
-                <div class="feature-item">
-                    <div class="feature-icon clock-icon"><i class="fa-regular fa-clock"></i></div>
-                    <div class="feature-text">
-                        <h4>Priority Processing</h4>
-                        <p>Enhances Priority Processing</p>
+                <div class="grid-btn rainbow-border page-trigger" data-target="ai-editor.html">
+                    <div class="btn-content">
+                        <span class="gradient-text-icon">A</span>
+                        <span>AI EDITOR</span>
                     </div>
                 </div>
-            </div>
-        </section>
+                <div class="grid-btn rainbow-border page-trigger" data-target="ai-voice.html">
+                    <div class="btn-content">
+                        <i class="fa-solid fa-waveform-lines magenta-text"></i>
+                        <span>AI VOICE</span>
+                    </div>
+                </div>
+                <div class="grid-btn rainbow-border page-trigger" data-target="ai-clips.html">
+                    <div class="btn-content">
+                        <i class="fa-solid fa-clapperboard-play orange-text"></i>
+                        <span>AI CLIPS</span>
+                    </div>
+                </div>
+            </section>
 
-        <footer class="nav-bar">
-            <i class="fa-solid fa-bars-sort"></i>
-            <div class="nav-home"></div>
-            <i class="fa-solid fa-chevron-left"></i>
+            <section class="upgrade-card rainbow-border page-trigger" data-target="upgrade.html">
+                <div class="card-inner">
+                    <div class="upgrade-banner">
+                        <h2 class="upgrade-title">UPGRADE PRO</h2>
+                        <h3 class="upgrade-subtitle">Features</h3>
+                    </div>
+                    
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <div class="feature-icon hd-icon">HD</div>
+                            <div class="feature-text">
+                                <h4>HD Renders</h4>
+                                <p>Rapidly generate high-definition renders.</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon gold-text"><i class="fa-solid fa-microphone-lines"></i></div>
+                            <div class="feature-text">
+                                <h4>Custom Voices</h4>
+                                <p>Create your own custom AI voices.</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon clock-icon"><i class="fa-regular fa-clock"></i></div>
+                            <div class="feature-text">
+                                <h4>Priority Processing</h4>
+                                <p>Enhanced speed with priority processing.</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon analytics-icon"><i class="fa-solid fa-chart-simple"></i></div>
+                            <div class="feature-text">
+                                <h4>Advanced Analytics</h4>
+                                <p>In-depth insights into your performance.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <footer class="bottom-nav">
+            <button class="nav-item active" id="nav-home"><i class="fa-solid fa-house"></i></button>
+            <button class="nav-item" id="nav-folder"><i class="fa-solid fa-folder-open"></i></button>
+            <button class="nav-item" id="nav-tools"><i class="fa-solid fa-screwdriver-wrench"></i></button>
+            <button class="nav-item" id="nav-profile"><i class="fa-solid fa-circle-user"></i></button>
         </footer>
 
-    </div> 
+    </div>
+
     <script src="index.js"></script>
-
-
 </body>
 </html>
