@@ -1,70 +1,61 @@
-// script.js
+// index.js
 
 document.addEventListener('DOMContentLoaded', () => {
-    
-    // 1. Grid Tools Buttons Click Logic
-    const gridButtons = document.querySelectorAll('.grid-btn');
-    
-    gridButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            // Button text nikalne ke liye
-            const toolName = this.querySelector('span:last-child').textContent;
+
+    // --- 1. ACTUAL WORKING NAVIGATION FOR ACCENT BUTTONS ---
+    // Yeh script har us element ko listen karegi jisme '.page-trigger' class hai
+    const interactiveElements = document.querySelectorAll('.page-trigger');
+
+    interactiveElements.forEach(element => {
+        element.addEventListener('click', () => {
+            // Element ke 'data-target' attribute se file ka naam fetch karega
+            const targetPage = element.getAttribute('data-target');
             
-            console.log(`${toolName} tool selected.`);
-            
-            // Aap yahan apna action perform kar sakte hain, jaise page change ya popup
-            // Example: 
-            // openToolPage(toolName);
+            if (targetPage) {
+                console.log(`Navigating to: ${targetPage}`);
+                
+                // Real redirection triggering
+                window.location.href = targetPage; 
+            }
         });
     });
 
-    // 2. Note Section Items Click Logic
-    const noteItems = document.querySelectorAll('.note-item');
-    
-    noteItems.forEach(item => {
-        item.addEventListener('click', () => {
-            const featureName = item.querySelector('h3').textContent;
-            console.log(`Navigating to feature: ${featureName}`);
+
+    // --- 2. FIXED MENU & CONSOLE UTILITIES (No page reload) ---
+    const topMenu = document.getElementById('top-menu');
+    const topProfile = document.getElementById('top-profile');
+
+    if (topMenu) {
+        topMenu.addEventListener('click', (e) => {
+            e.stopPropagation(); // Stops parent container click triggers
+            console.log("Fixed Side Drawer Menu Opened.");
+            alert("Menu Triggered (Fixed Action)");
+        });
+    }
+
+    if (topProfile) {
+        topProfile.addEventListener('click', (e) => {
+            e.stopPropagation();
+            console.log("Opening account management system...");
+            alert("Profile Settings Triggered (Fixed Action)");
+        });
+    }
+
+
+    // --- 3. BOTTOM NAV TAB SYSTEM (Stays on same dashboard context) ---
+    const navItems = document.querySelectorAll('.nav-item');
+
+    navItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevents page reload trigger
+            
+            // Remove active status from others
+            navItems.forEach(nav => nav.classList.remove('active'));
+            
+            // Add active status to current selection
+            item.classList.add('active');
+            
+            console.log(`Tab switched to: ${item.id}`);
         });
     });
-
-    // 3. Upgrade Pro Card Click Logic
-    const upgradeCard = document.querySelector('.upgrade-section');
-    if (upgradeCard) {
-        upgradeCard.addEventListener('click', () => {
-            console.log('Opening Subscription Payment Gateway...');
-            // window.location.href = '/checkout';
-        });
-    }
-
-    // 4. Top Header & Bottom Navigation Bar Controls
-    const menuBtn = document.querySelector('.menu-btn');
-    const profileBtn = document.querySelector('.profile-avatar');
-    const homeBtn = document.querySelector('.nav-home');
-    const backBtn = document.querySelector('.fa-chevron-left');
-
-    if (menuBtn) {
-        menuBtn.addEventListener('click', () => {
-            console.log('Sidebar Menu Opened');
-        });
-    }
-
-    if (profileBtn) {
-        profileBtn.addEventListener('click', () => {
-            console.log('Opening Profile Settings...');
-        });
-    }
-
-    if (homeBtn) {
-        homeBtn.addEventListener('click', () => {
-            console.log('Navigating to Home Screen');
-        });
-    }
-
-    if (backBtn) {
-        backBtn.addEventListener('click', () => {
-            console.log('Going back to previous screen');
-            // window.history.back();
-        });
-    }
 });
