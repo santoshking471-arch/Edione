@@ -1,0 +1,282 @@
+/* editor-style.css */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
+
+:root {
+    /* Dark Theme Core Variables (Default Gemini Look) */
+    --bg-app: #08080a;
+    --bg-card: #131316;
+    --bg-input: #1e1e24;
+    --text-primary: #ffffff;
+    --text-secondary: #94a3b8;
+    --border-element: rgba(255, 255, 255, 0.05);
+    --accent-glow: radial-gradient(circle at 50% -20%, rgba(79, 172, 254, 0.12), transparent 50%);
+}
+
+/* Light Theme Variables Switch Mapping */
+body.light-theme {
+    --bg-app: #f4f7fa;
+    --bg-card: #ffffff;
+    --bg-input: #e2e8f0;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --border-element: rgba(0, 0, 0, 0.05);
+    --accent-glow: radial-gradient(circle at 50% -20%, rgba(79, 172, 254, 0.08), transparent 50%);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: var(--bg-app);
+    transition: background-color 0.3s ease;
+}
+
+/* Android Zoom Lock Structural Frame Container */
+.app-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.ambient-glow {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: var(--accent-glow);
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Header Navbar Layout */
+.app-header {
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 16px;
+    border-bottom: 1px solid var(--border-element);
+    z-index: 10;
+}
+
+.left-nav, .right-nav {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.logo-text {
+    font-weight: 800;
+    font-size: 20px;
+    color: var(--text-primary);
+    letter-spacing: -0.5px;
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: var(--text-primary);
+    cursor: pointer;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-circle {
+    width: 32px;
+    height: 32px;
+    background-color: #4a5568;
+    color: white;
+    border-radius: 50%;
+    font-weight: 700;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Chat Dynamic Core Scroller Scaffolding */
+.chat-container {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-container::-webkit-scrollbar {
+    display: none;
+}
+
+/* Gemini Home Screen Vibe Inside Chat */
+.welcome-screen {
+    margin-top: auto;
+    margin-bottom: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.greeting-text {
+    font-size: 32px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #4facfe, #b156fc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.sub-greeting {
+    font-size: 22px;
+    color: var(--text-secondary);
+    font-weight: 600;
+    margin-bottom: 24px;
+}
+
+.suggestion-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.suggest-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-element);
+    color: var(--text-primary);
+    padding: 16px;
+    border-radius: 16px;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+}
+
+/* Active Real-time Chat Dialog Elements */
+.chat-logs {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+}
+
+.chat-bubble {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-width: 85%;
+    animation: fadeUp 0.3s ease forwards;
+}
+
+.chat-bubble.user {
+    align-self: flex-end;
+    background-color: var(--bg-input);
+    padding: 12px 16px;
+    border-radius: 20px 20px 4px 20px;
+    color: var(--text-primary);
+    font-size: 15px;
+}
+
+.chat-bubble.ai {
+    align-self: flex-start;
+    color: var(--text-primary);
+    width: 100%;
+    max-width: 100%;
+}
+
+.ai-header-node {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    font-size: 14px;
+    color: #4facfe;
+}
+
+.ai-content-body {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--text-primary);
+    padding-left: 24px;
+    white-space: pre-wrap;
+}
+
+/* Bottom Input Component Dock */
+.input-console {
+    padding: 12px 16px max(16px, env(safe-area-inset-bottom)) 16px;
+    background-color: var(--bg-app);
+    z-index: 10;
+}
+
+.console-wrapper {
+    background-color: var(--bg-input);
+    border-radius: 28px;
+    padding: 6px 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.chat-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text-primary);
+    font-size: 15px;
+    padding: 8px 4px;
+}
+
+.chat-input::placeholder {
+    color: var(--text-secondary);
+}
+
+.action-trigger-btn {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 18px;
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+}
+
+.send-action-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+    border: none;
+    color: #000000;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+/* Utility Design Micro-systems */
+.cyan-text { color: #00bcd4; }
+.orange-text { color: #ff9800; }
+.purple-text { color: #9c27b0; }
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
