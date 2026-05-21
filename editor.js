@@ -2,9 +2,19 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     // --- 1. CORE AI & VIDEO RENDERING ENGINE CONFIGURATION ---
-    // Bas yahan apni real Gemini API Key paste kar dena
-    const GEMINI_API_KEY = "QUl6YVN5QXNoZ0k2WGswNThDa0xDMVhpTExDd3FiamwtR3BwRURR"; 
-    const GEMINI_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`;
+    // Aapki real Base64 Key yahan perfectly placed hai
+    const ENCODED_GEMINI_KEY = "QUl6YVN5QXNoZ0k2WGswNThDa0xDMVhpTExDd3FiamwtR3BwRURR"; 
+    
+    let GEMINI_API_KEY = "";
+    try {
+        // Base64 string ko automatically decode karega
+        GEMINI_API_KEY = atob(ENCODED_GEMINI_KEY.trim());
+    } catch(e) {
+        alert(`Base64 Key Decode Fail Error:\n${e.name} - ${e.message}`);
+    }
+
+    // Upgraded standard model endpoint for high reliability
+    const GEMINI_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
     
     // Shotstack Real API Configuration (Sandbox Connected)
     const SHOTSTACK_API_KEY = "KZbTdfJCoiTWXybILYfSqQT25zJDiPYucmUNiIHB"; 
@@ -19,11 +29,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const themeToggle = document.getElementById('theme-toggle');
 
     // --- 2. THEME SWITCHER FUNCTIONALITY ---
-    themeToggle.addEventListener('click', () => {
-        const isDark = document.body.classList.toggle('dark-theme');
-        document.body.classList.toggle('light-theme', !isDark);
-        themeToggle.innerHTML = isDark ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
-    });
+    if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+            const isDark = document.body.classList.toggle('dark-theme');
+            document.body.classList.toggle('light-theme', !isDark);
+            themeToggle.innerHTML = isDark ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
+        });
+    }
 
     // --- 3. VIDEO GENERATION ENGINE CORE CONTROLLER ---
     async function startVideoGenerationEngine(forcedText = null) {
@@ -54,24 +66,40 @@ document.addEventListener('DOMContentLoaded', () => {
                     contents: [{ parts: [{ text: structuralPrompt }] }]
                 })
             });
+
             const data = await response.json();
             
-            if (data.candidates && data.candidates[0].content.parts[0].text) {
-                const generatedSceneText = data.candidates[0].content.parts[0].text.trim();
-                
+            // Catch Google API Level errors (Jaise Invalid Key / Quota Over)
+            if (data.error) {
+                alert(`Google Server Error Response!\nCode: ${data.error.code}\nMessage: ${data.error.message}`);
+                updateAIBubble(aiBubbleId, `❌ API Error: ${data.error.message}`);
+                return;
+            }
+
+            // Safe parsing logic to check different types of API return packages
+            let generatedSceneText = "";
+            if (data.candidates && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0].text) {
+                generatedSceneText = data.candidates[0].content.parts[0].text.trim();
+            }
+
+            if (generatedSceneText) {
                 // Screen layout par generated script update karo
-                updateAIBubble(aiBubbleId, `[Scene Script]: ${generatedSceneText}\n\n⏳ Sending framework to Shotstack engine for cloud rendering...`);
+                updateAIBubble(aiBubbleId, `🎬 [Script Generated]: ${generatedSceneText}\n\n⏳ Sending framework to Shotstack engine for cloud rendering...`);
                 autoScrollBottom();
 
                 // 4. Trigger Shotstack Render Pipeline
                 await triggerShotstackRender(generatedSceneText, aiBubbleId);
-
             } else {
-                updateAIBubble(aiBubbleId, "Error: Gemini model frame could not parse video assets.");
+                // Agar bina error ke khali response aata hai toh fallback box alert dikhao
+                alert(`Empty Data Alert: Could not locate text field inside response content tree.\nRaw data: ${JSON.stringify(data)}`);
+                updateAIBubble(aiBubbleId, `⚠️ Server Empty Response: Raw object structured mismatch.`);
             }
+
         } catch (error) {
+            // JavaScript network block or code crash alert
+            alert(`Network or Execution Failure Exception!\nError Name: ${error.name}\nError Message: ${error.message}`);
             console.error(error);
-            updateAIBubble(aiBubbleId, "Network Block: API system connection failure.");
+            updateAIBubble(aiBubbleId, `Network Block: ${error.name} - ${error.message}`);
         }
         
         autoScrollBottom();
@@ -79,7 +107,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- 4. SHOTSTACK REAL CLOUD RENDERING PIPELINE ---
     async function triggerShotstackRender(sceneDescriptionText, aiBubbleId) {
-        // Standard high-quality placeholder asset video url
         const stockVideoUrl = "https://s3-ap-southeast-2.amazonaws.com/shotstack-assets/footage/earth.mp4";
 
         const shotstackTimelineJSON = {
@@ -128,13 +155,15 @@ document.addEventListener('DOMContentLoaded', () => {
             
             if (renderResult.response && renderResult.response.id) {
                 const renderId = renderResult.response.id;
-                updateAIBubble(aiBubbleId, `✅ Video Render Queued Successfully!\n\nRender ID: ${renderId}\n\nShotstack sandbox is compiling assets. Check your Shotstack dashboard to preview the output file.`);
+                updateAIBubble(aiBubbleId, `🎬 [Script]: ${sceneDescriptionText}\n\n✅ Video Render Queued Successfully!\n\nRender ID: ${renderId}\n\nShotstack sandbox is compiling assets. Check your Shotstack dashboard to preview the output file.`);
             } else {
-                updateAIBubble(aiBubbleId, "Shotstack Error: Timeline verification failed in sandbox.");
+                alert(`Shotstack Logic Warning: Request accepted but output structure is missing ID parameter.\nResponse: ${JSON.stringify(renderResult)}`);
+                updateAIBubble(aiBubbleId, "❌ Shotstack Error: Timeline verification failed in sandbox container.");
             }
         } catch (error) {
+            alert(`Shotstack Cloud Crash Exception!\nError Name: ${error.name}\nError Message: ${error.message}`);
             console.error("Shotstack Error:", error);
-            updateAIBubble(aiBubbleId, "Failed to connect to Shotstack rendering cloud node.");
+            updateAIBubble(aiBubbleId, "❌ Failed to connect to Shotstack rendering cloud node.");
         }
         autoScrollBottom();
     }
@@ -158,26 +187,29 @@ document.addEventListener('DOMContentLoaded', () => {
         chatOutputSpace.appendChild(bubble);
     }
 
-    // Standard single update function with clean layout text support
     function updateAIBubble(id, newContent) {
         const targetBubble = document.getElementById(id);
         if (targetBubble) {
             const body = targetBubble.querySelector('.ai-content-body');
-            if (body) body.textContent = newContent;
+            if (body) {
+                // innerHTML alignment handling support with break line injection safely
+                body.innerHTML = newContent.replace(/\n/g, '<br>');
+            }
         }
     }
 
-    // Android smooth support scroll offset anchor
     function autoScrollBottom() {
-        chatScroller.scrollTop = chatScroller.scrollHeight;
+        if (chatScroller) chatScroller.scrollTop = chatScroller.scrollHeight;
     }
 
     // --- 6. EVENT LISTENERS ACTIVATION MATRIX ---
-    submitBtn.addEventListener('click', () => startVideoGenerationEngine());
+    if (submitBtn) submitBtn.addEventListener('click', () => startVideoGenerationEngine());
     
-    inputField.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') startVideoGenerationEngine();
-    });
+    if (inputField) {
+        inputField.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') startVideoGenerationEngine();
+        });
+    }
 
     suggestCards.forEach(card => {
         card.addEventListener('click', () => {
