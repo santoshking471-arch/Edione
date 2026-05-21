@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Upgraded standard model endpoint for high reliability
-    const GEMINI_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+    const GEMINI_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
     
     // Shotstack Real API Configuration (Sandbox Connected)
     const SHOTSTACK_API_KEY = "KZbTdfJCoiTWXybILYfSqQT25zJDiPYucmUNiIHB"; 
