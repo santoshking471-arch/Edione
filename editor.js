@@ -105,49 +105,26 @@ document.addEventListener('DOMContentLoaded', () => {
         autoScrollBottom();
     }
 
-    // --- 4. SHOTSTACK REAL CLOUD RENDERING PIPELINE ---
+        // --- 4. UPGRADED SHOTSTACK REAL CLOUD RENDERING PIPELINE WITH LIVE PLAYER ---
     async function triggerShotstackRender(sceneDescriptionText, aiBubbleId) {
         const stockVideoUrl = "https://s3-ap-southeast-2.amazonaws.com/shotstack-assets/footage/earth.mp4";
 
         const shotstackTimelineJSON = {
             timeline: {
-                tracks: [
-                    {
-                        clips: [
-                            {
-                                asset: {
-                                    type: "video",
-                                    src: stockVideoUrl
-                                },
-                                start: 0,
-                                length: 5
-                            },
-                            {
-                                asset: {
-                                    type: "title",
-                                    text: sceneDescriptionText,
-                                    style: "minimal"
-                                },
-                                start: 0,
-                                length: 5
-                            }
-                        ]
-                    }
-                ]
+                tracks: [{
+                    clips: [
+                        { asset: { type: "video", src: stockVideoUrl }, start: 0, length: 5 },
+                        { asset: { type: "title", text: sceneDescriptionText, style: "minimal" }, start: 0, length: 5 }
+                    ]
+                }]
             },
-            output: {
-                format: "mp4",
-                resolution: "hd"
-            }
+            output: { format: "mp4", resolution: "hd" }
         };
 
         try {
             const response = await fetch(SHOTSTACK_ENDPOINT, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'x-api-key': SHOTSTACK_API_KEY
-                },
+                headers: { 'Content-Type': 'application/json', 'x-api-key': SHOTSTACK_API_KEY },
                 body: JSON.stringify(shotstackTimelineJSON)
             });
 
@@ -155,18 +132,62 @@ document.addEventListener('DOMContentLoaded', () => {
             
             if (renderResult.response && renderResult.response.id) {
                 const renderId = renderResult.response.id;
-                updateAIBubble(aiBubbleId, `🎬 [Script]: ${sceneDescriptionText}\n\n✅ Video Render Queued Successfully!\n\nRender ID: ${renderId}\n\nShotstack sandbox is compiling assets. Check your Shotstack dashboard to preview the output file.`);
+                
+                updateAIBubble(aiBubbleId, `🎬 [Script]: ${sceneDescriptionText}\n\n⏳ Cloud is rendering your video... Please wait.`);
+                
+                // --- START LIVE POLLING FOR DIRECT VIDEO PLAYER ---
+                checkVideoStatusUntilDone(renderId, aiBubbleId, sceneDescriptionText);
+
             } else {
-                alert(`Shotstack Logic Warning: Request accepted but output structure is missing ID parameter.\nResponse: ${JSON.stringify(renderResult)}`);
-                updateAIBubble(aiBubbleId, "❌ Shotstack Error: Timeline verification failed in sandbox container.");
+                updateAIBubble(aiBubbleId, "❌ Shotstack Error: Timeline verification failed.");
             }
         } catch (error) {
-            alert(`Shotstack Cloud Crash Exception!\nError Name: ${error.name}\nError Message: ${error.message}`);
             console.error("Shotstack Error:", error);
-            updateAIBubble(aiBubbleId, "❌ Failed to connect to Shotstack rendering cloud node.");
+            updateAIBubble(aiBubbleId, "❌ Failed to connect to Shotstack servers.");
         }
-        autoScrollBottom();
     }
+
+    // --- NEW LOGIC: AUTOMATIC VIDEO FETCH & PLAYER INJECTOR ---
+    async function checkVideoStatusUntilDone(renderId, aiBubbleId, sceneDescriptionText) {
+        // Staging/Sandbox polling endpoint URL
+        const pollEndpoint = `https://api.shotstack.io/edit/stage/render/${renderId}`;
+        
+        const interval = setInterval(async () => {
+            try {
+                const res = await fetch(pollEndpoint, {
+                    method: 'GET',
+                    headers: { 'x-api-key': SHOTSTACK_API_KEY }
+                });
+                const data = await res.json();
+                
+                if (data.response && data.response.status === 'done') {
+                    clearInterval(interval); // Dynamic check loop ko roko
+                    const finalVideoUrl = data.response.url; // Asli video link!
+
+                    // Pure layout ko real HTML video player se live update kar do!
+                    const targetBubble = document.getElementById(aiBubbleId);
+                    if (targetBubble) {
+                        const body = targetBubble.querySelector('.ai-content-body');
+                        if (body) {
+                            body.innerHTML = `
+                                <div style="margin-bottom: 10px;">🎬 <b>[Script]:</b> ${sceneDescriptionText}</div>
+                                <div style="color: #00ffcc; font-weight: bold; margin-bottom: 12px;">✅ Video Rendered Successfully!</div>
+                                <video src="${finalVideoUrl}" controls autoplay loop style="width: 100%; max-width: 320px; border-radius: 12px; border: 2px solid #00ffcc; box-shadow: 0 0 15px rgba(0,255,204,0.4); margin-top: 5px;"></video>
+                                <a href="${finalVideoUrl}" download target="_blank" style="display: block; width: fit-content; margin-top: 10px; padding: 6px 12px; background: #00ffcc; color: #000; font-weight: bold; border-radius: 6px; text-decoration: none; font-size: 13px;"><i class="fa-solid fa-download"></i> Download MP4</a>
+                            `;
+                        }
+                    }
+                    autoScrollBottom();
+                } else if (data.response && data.response.status === 'failed') {
+                    clearInterval(interval);
+                    updateAIBubble(aiBubbleId, "❌ Cloud Rendering Failed on Shotstack node.");
+                }
+            } catch (err) {
+                console.error("Polling error:", err);
+            }
+        }, 3000); // Har 3 second mein cloud update check karega
+    }
+
 
     // --- 5. RUN-TIME UI DOM GENERATOR UTILITIES ---
     function appendBubble(content, sender, uniqueId = null, isLoading = false) {
