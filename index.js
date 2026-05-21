@@ -2,36 +2,56 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- 1. ACTUAL WORKING NAVIGATION FOR ACCENT BUTTONS ---
-    // Yeh script har us element ko listen karegi jisme '.page-trigger' class hai
+    // --- 1. SIDE DRAWER MENU NAVIGATION ENGINE (Real Action Added) ---
+    const topMenu = document.getElementById('top-menu');
+    const closeMenuDrawer = document.getElementById('close-menu-drawer');
+    const sideMenuDrawer = document.getElementById('side-menu-drawer');
+    const menuScreenOverlay = document.getElementById('menu-screen-overlay');
+
+    // Menu Open karne ka logic
+    if (topMenu && sideMenuDrawer && menuScreenOverlay) {
+        topMenu.addEventListener('click', (e) => {
+            e.stopPropagation();
+            sideMenuDrawer.classList.add('open');
+            menuScreenOverlay.classList.add('visible');
+            console.log("Side Drawer Menu Opened.");
+        });
+    }
+
+    // Menu Close karne ka common function
+    function closeDrawerSystem() {
+        if (sideMenuDrawer && menuScreenOverlay) {
+            sideMenuDrawer.classList.remove('open');
+            menuScreenOverlay.classList.remove('visible');
+            console.log("Side Drawer Menu Closed.");
+        }
+    }
+
+    // X button aur background overlay par click karne se menu close hoga
+    if (closeMenuDrawer) {
+        closeMenuDrawer.addEventListener('click', closeDrawerSystem);
+    }
+    if (menuScreenOverlay) {
+        menuScreenOverlay.addEventListener('click', closeDrawerSystem);
+    }
+
+
+    // --- 2. ACTUAL WORKING NAVIGATION FOR ACCENT BUTTONS ---
     const interactiveElements = document.querySelectorAll('.page-trigger');
 
     interactiveElements.forEach(element => {
         element.addEventListener('click', () => {
-            // Element ke 'data-target' attribute se file ka naam fetch karega
             const targetPage = element.getAttribute('data-target');
-            
             if (targetPage) {
                 console.log(`Navigating to: ${targetPage}`);
-                
-                // Real redirection triggering
                 window.location.href = targetPage; 
             }
         });
     });
 
 
-    // --- 2. FIXED MENU & CONSOLE UTILITIES (No page reload) ---
-    const topMenu = document.getElementById('top-menu');
+    // --- 3. PROFILE UTILITY (Stays on context) ---
     const topProfile = document.getElementById('top-profile');
-
-    if (topMenu) {
-        topMenu.addEventListener('click', (e) => {
-            e.stopPropagation(); // Stops parent container click triggers
-            console.log("Fixed Side Drawer Menu Opened.");
-            alert("Menu Triggered (Fixed Action)");
-        });
-    }
 
     if (topProfile) {
         topProfile.addEventListener('click', (e) => {
@@ -42,17 +62,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    // --- 3. BOTTOM NAV TAB SYSTEM (Stays on same dashboard context) ---
+    // --- 4. BOTTOM NAV TAB SYSTEM ---
     const navItems = document.querySelectorAll('.nav-item');
 
     navItems.forEach(item => {
         item.addEventListener('click', (e) => {
-            e.stopPropagation(); // Prevents page reload trigger
+            e.stopPropagation(); 
             
-            // Remove active status from others
             navItems.forEach(nav => nav.classList.remove('active'));
-            
-            // Add active status to current selection
             item.classList.add('active');
             
             console.log(`Tab switched to: ${item.id}`);
