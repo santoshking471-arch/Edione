@@ -3,7 +3,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     // --- 1. CORE AI & VIDEO RENDERING ENGINE CONFIGURATION ---
     // Bas yahan apni real Gemini API Key paste kar dena
-    const GEMINI_API_KEY = "YOUR_GEMINI_API_KEY_HERE"; 
+    const GEMINI_API_KEY = "QUl6YVN5QXNoZ0k2WGswNThDa0xDMVhpTExDd3FiamwtR3BwRURR"; 
     const GEMINI_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`;
     
     // Shotstack Real API Configuration (Sandbox Connected)
